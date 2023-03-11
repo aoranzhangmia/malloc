@@ -16,7 +16,7 @@
  *
  *************************************************************************
  *
- * @author Your Name <andrewid@andrew.cmu.edu>
+ * @author Aoran Zhang <aoranz@andrew.cmu.edu>
  */
 
 #include <assert.h>
@@ -459,6 +459,9 @@ static block_t *extend_heap(size_t size) {
     size = round_up(size, dsize);
     if ((bp = mem_sbrk((intptr_t)size)) == (void *)-1) {
         return NULL;
+
+    
+    
     }
 
     /*
@@ -512,7 +515,7 @@ static void split_block(block_t *block, size_t asize) {
 
 /**
  * @brief
- *
+ * First Fit: Find the first free part in the block
  * <What does this function do?>
  * <What are the function's arguments?>
  * <What is the function's return value?>
