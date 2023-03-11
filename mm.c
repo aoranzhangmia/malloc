@@ -572,7 +572,7 @@ bool mm_checkheap(int line) {
  */
 bool mm_init(void) {
     // Create the initial empty heap
-    word_t *start = (word_t *)(mem_sbrk(2 * wsize));
+    word_t *start = (word_t *)(mem_sbrk(4 * wsize));
 
     if (start == (void *)-1) {
         return false;
@@ -584,14 +584,16 @@ bool mm_init(void) {
      * they correspond to a block footer and header respectively?
      */
 
-    start[0] = pack(0, true); // Heap prologue (block footer)
-    start[1] = pack(0, true); // Heap epilogue (block header)
+    start[0] = 0; // allignment padding
+    start[wsize] = pack(dsize, true); //Heap prologue (block footer)
+    start[2 * wsize] = pack(dsize, true); //Footer Prologue
+    start[3 * wsize] = pack(0, true); // Heap epilogue (block header)
 
     // Heap starts with first "block header", currently the epilogue
-    heap_start = (block_t *)&(start[1]);
+    heap_start = (block_t *)&(start[2 * wsize]);
 
     // Extend the empty heap with a free block of chunksize bytes
-    if (extend_heap(chunksize) == NULL) {
+    if (extend_heap(chunksize/wsize) == NULL) {
         return false;
     }
 
