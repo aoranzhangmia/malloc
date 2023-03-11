@@ -95,18 +95,18 @@ static const size_t dsize = 2 * wsize;
 static const size_t min_block_size = 2 * dsize;
 
 /**
- * TODO: explain what chunksize is
+ * @brief The default size for expanding the heap.
  * (Must be divisible by dsize)
  */
 static const size_t chunksize = (1 << 12);
 
 /**
- * TODO: explain what alloc_mask is
+ * @brief Mask to extract if the the block is allocated.
  */
 static const word_t alloc_mask = 0x1;
 
 /**
- * TODO: explain what size_mask is
+ * @brief Mask to extract the size of the block.
  */
 static const word_t size_mask = ~(word_t)0xF;
 
@@ -514,9 +514,7 @@ static void split_block(block_t *block, size_t asize) {
 }
 
 /**
- * @brief
- * First Fit: Find the first free part in the block
- * <What does this function do?>
+ * @brief Use first fit strategy to find an empty block.
  * <What are the function's arguments?>
  * <What is the function's return value?>
  * <Are there any preconditions or postconditions?>
@@ -565,14 +563,12 @@ bool mm_checkheap(int line) {
 }
 
 /**
- * @brief
+ * @brief Performs any necessary initializations, such as allocating the initial heap area.
  *
- * <What does this function do?>
- * <What are the function's arguments?>
- * <What is the function's return value?>
- * <Are there any preconditions or postconditions?>
+ * Gets four words from the memory system and initializes them to create the empty free list.
+ * It then calls the 'extend_heap' function to extends the heap by chunk_size bytes and create the initial free block.
  *
- * @return
+ * @return False if there was a problem in performing the initialization, true otherwise.
  */
 bool mm_init(void) {
     // Create the initial empty heap
@@ -581,7 +577,7 @@ bool mm_init(void) {
     if (start == (void *)-1) {
         return false;
     }
-
+    
     /*
      * TODO: delete or replace this comment once you've thought about it.
      * Think about why we need a heap prologue and epilogue. Why do
